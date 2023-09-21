@@ -29,15 +29,15 @@ export const MenuItem = (props) => {
     onOpenCloseModal();
   };
 
-  // const openDesactivateActiveConfirm = () => {
-  //   setIsDelete(false);
-  //   setConfirmMessage(
-  //     menu.active
-  //       ? `Desactivar el menu ${menu.title}`
-  //       : `Activar el menu ${menu.title}`
-  //   );
-  //   onOpenCloseConfirm();
-  // }
+  const openDesactivateActiveConfirm = () => {
+    setIsDelete(false);
+    setConfirmMessage(
+      menu.active
+        ? `Desactivar el menu ${menu.title}`
+        : `Activar el menu ${menu.title}`
+    );
+    onOpenCloseConfirm();
+  }
 
   const onActivateDesactivate = async () => {
     try {
@@ -51,9 +51,22 @@ export const MenuItem = (props) => {
     }
   };
 
-  // const onDelete = () => {
-  //   console.log('DELETE MENU', menu );
-  // }
+  const openDeleteConfirm = () => {
+    setIsDelete(true);
+    setConfirmMessage(`Eliminar el menu ${menu.title}`)
+    onOpenCloseConfirm()
+  }
+
+  const onDelete = async () => {
+    try{
+      await menuController.deleteMenu( accessToken, menu._id);
+      onReload();
+      onOpenCloseConfirm();
+      
+    } catch(error){
+      throw error;
+    }
+  }
 
   return (
     <>
@@ -74,7 +87,7 @@ export const MenuItem = (props) => {
           >
             <Icon name={menu.active ? "ban" : "check"} />
           </Button>
-          <Button icon color="red">
+          <Button icon color="red" onClick={openDeleteConfirm}>
             <Icon name="trash" />
           </Button>
         </div>
@@ -84,13 +97,13 @@ export const MenuItem = (props) => {
         <MenuForm onClose={onOpenCloseModal} onReload={onReload} menu={menu} />
       </BasicModal>
 
-      {/* <Confirm
+      <Confirm
         open={ showConfirm }
         onCancel= {onOpenCloseConfirm}
         onConfirm={ isDelete ? onDelete : onActivateDesactivate }
         content={confirmMessage}
         size='mini'
-      /> */}
+      />
     </>
   );
 };

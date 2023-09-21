@@ -75,26 +75,26 @@ export class Menu {
   }
 
 
-  //eliminar un menu
-  // async deleteMenu( accessToken, idMenu ){
-  //   try{
-  //     const url = `${this.baseApi}/${ENV.API_ROUTES.MENU}/${idMenu}`;
-  //     const params = {
-  //       method: 'DELETE',
-  //       headers: {
-  //         Authorization: `Bearer ${ accessToken }`,
-  //       },
-  //     };
+  // eliminar un menu
+  async deleteMenu( accessToken, idMenu ){
+    try{
+      const url = `${this.baseApi}/${ENV.API_ROUTES.MENU}/${idMenu}`;
+      const params = {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${ accessToken }`,
+        },
+      };
 
-  //     const response = await fetch( url, params);
-  //     const result = await response.json();
+      const response = await fetch( url, params);
+      const result = await response.json();
 
-  //     if( response.status !== 200 ) throw result;
+      if( response.status !== 200 ) throw result;
 
-  //     return result; 
+      return result; 
 
-  //   } catch ( error ){
-  //     throw error
-  //   }
-  // } 
+    } catch ( error ){
+      throw error
+    }
+  } 
 }
