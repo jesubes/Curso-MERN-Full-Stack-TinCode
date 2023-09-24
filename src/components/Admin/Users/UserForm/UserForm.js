@@ -16,7 +16,6 @@ export const UserForm = ( props ) => {
   const { close, onReload, user } = props 
   const { accessToken } = useAuth()
 
-  
 
   const formik = useFormik({
     initialValues: initialValues(user),

@@ -7,15 +7,19 @@ import "./Courses.scss";
 export const Courses = () => {
   //modal para el nuevo curso
   const [showModal, setShowModal] = useState(false);
+  const [reload, setReload] = useState(false);
+
 
   const onOpenCloseModal = () => setShowModal((prevState) => !prevState);
+  const onReload = () => setReload( (prevState) => !prevState); 
+
 
   const panes = [
     {
       menuItem: "Listado de Cursos",
       render: () => (
         <Tab.Pane attached={false}>
-          <ListCourses />
+          <ListCourses reload={reload}/>
         </Tab.Pane>
       ),
     },
@@ -34,7 +38,7 @@ export const Courses = () => {
       </div>
 
       <BasicModal show={showModal} close={onOpenCloseModal} title="Crear Curso">
-        <CourseForm onClose={onOpenCloseModal}/>
+        <CourseForm onClose={onOpenCloseModal} onReload = {onReload}/>
       </BasicModal>
     </>
   );

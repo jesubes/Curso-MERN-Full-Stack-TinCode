@@ -2,10 +2,17 @@ import React, { useCallback } from "react";
 import { Form, Image } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
 import { useFormik } from "formik";
+import {Course} from '../../../../api';
+import { useAuth } from '../../../../hooks'
 import { initialValues, validationSchema } from "./CourseForm.form.js";
 import "./CourseForm.scss";
 
-export const CourseForm = () => {
+const courseController = new Course();
+
+export const CourseForm = (props) => {
+  const { accessToken } = useAuth();
+  const {onClose, onReload } = props
+
   //inicializar formik
   const formik = useFormik({
     initialValues: initialValues(),
@@ -13,7 +20,12 @@ export const CourseForm = () => {
     validateOnChange: false,
     onSubmit: async (formValues) => {
       try {
-        console.log(formValues);
+        await courseController.createCourse(accessToken, formValues)
+
+        //refescar la lista de curso
+        onReload();
+        //cerrar el modal
+        onClose();
       } catch (error) {
         console.error(error);
       }
