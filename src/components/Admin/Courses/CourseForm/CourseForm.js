@@ -2,25 +2,36 @@ import React, { useCallback } from "react";
 import { Form, Image } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
 import { useFormik } from "formik";
-import {Course} from '../../../../api';
-import { useAuth } from '../../../../hooks'
+import { Course } from "../../../../api";
+import { useAuth } from "../../../../hooks";
 import { initialValues, validationSchema } from "./CourseForm.form.js";
+import { ENV } from "../../../../utils";
 import "./CourseForm.scss";
 
 const courseController = new Course();
 
 export const CourseForm = (props) => {
   const { accessToken } = useAuth();
-  const {onClose, onReload } = props
+  const { onClose, onReload, course } = props;
 
   //inicializar formik
   const formik = useFormik({
-    initialValues: initialValues(),
+    initialValues: initialValues(course),
     validationSchema: validationSchema(),
     validateOnChange: false,
     onSubmit: async (formValues) => {
       try {
-        await courseController.createCourse(accessToken, formValues)
+        if (!course) {
+          //crear
+          await courseController.createCourse(accessToken, formValues);
+        } else {
+          //actualizar
+          await courseController.updateCourse(
+            accessToken,
+            course._id,
+            formValues
+          );
+        }
 
         //refescar la lista de curso
         onReload();
@@ -47,13 +58,14 @@ export const CourseForm = (props) => {
 
   //TRAE miniatura del curso
   const getMiniature = () => {
-    if( formik.values.file ){
+    if (formik.values.file) {
       return formik.values.miniature;
+    } else if (formik.values.miniature) {
+      return `${ENV.BASE_PATH}/${formik.values.miniature}`;
     }
     return null;
   };
 
-  
   //
   return (
     <Form className="course-form" onSubmit={formik.handleSubmit}>
@@ -110,7 +122,7 @@ export const CourseForm = (props) => {
       </Form.Group>
 
       <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
-        Crear curso
+        {!course ? "Crear Curso" : "Actualizar Curso"}
       </Form.Button>
     </Form>
   );
