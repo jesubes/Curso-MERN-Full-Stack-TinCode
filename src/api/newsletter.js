@@ -27,8 +27,9 @@ export class Newsletter {
     }
   }
 
+
   //Eliminar un registro de mail
-  async deleteNewsleter(accessToken, idEmail) {
+  async deleteEmail(accessToken, idEmail) {
     try {
       const url = `${this.baseApi}/${ENV.API_ROUTES.NEWSLETTER}/${idEmail}`;
 
@@ -40,11 +41,12 @@ export class Newsletter {
       };
 
       const response = await fetch(url, params);
-      const result = response.json();
+      const result = await response.json();
 
       if (response.status !== 200) throw result;
 
       return result;
+      
     } catch (error) {
       throw error;
     }

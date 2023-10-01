@@ -13,8 +13,11 @@ export const ListEmails = () => {
   const [emails, setEmails] = useState(null);
   const [pagination, setPagination] = useState(null)
   const [page, setPage] = useState(1)
-
+  const [reload, setReload] = useState(false)
   const { accessToken } = useAuth();
+
+
+  const onReload = () => setReload( prevState => !prevState)
 
   useEffect(() => {
     (async () => {
@@ -31,7 +34,7 @@ export const ListEmails = () => {
         console.error(error);
       }
     })();
-  }, [page]);
+  }, [page, reload]);
 
   const changePage = (_, data) => {
     setPage(data.activePage)
@@ -44,7 +47,7 @@ export const ListEmails = () => {
   return (
     <div className="list-email">
       {map(emails, (email) => (
-        <EmailItem key={email._id} email={email} />
+        <EmailItem key={email._id} email={email} onReload={onReload} />
       ))}
 
       <div className="list-emails__pagination">
