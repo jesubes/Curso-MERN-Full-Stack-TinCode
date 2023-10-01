@@ -4,10 +4,10 @@ export class Newsletter {
   baseApi = ENV.BASE_API;
 
   //traer los Correos con paginate
-  async getEmails(accessToken, prop) {
+  async getEmails(accessToken, page =1 , limit = 10) {
     try {
-      const pageFilter = `page=${prop?.page || 1}`;
-      const limitFilter = `limit=${prop?.page || 10}`;
+      const pageFilter = `page=${page}`;
+      const limitFilter = `limit=${limit}`;
 
       const url = `${this.baseApi}/${ENV.API_ROUTES.NEWSLETTER}?${limitFilter}&${pageFilter}`;
 
