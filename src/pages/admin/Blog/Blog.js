@@ -1,6 +1,8 @@
 import React from "react";
 import { Button, Tab } from "semantic-ui-react";
+import {ListPost} from '../../../components/Admin/Post'
 import "./Blog.scss";
+
 
 export const Blog = () => {
 
@@ -9,7 +11,7 @@ export const Blog = () => {
       menuItem: "Listado de Blog's",
       render: () => (
         <Tab.Pane attached={false}>
-          <div>TENEMOS QUE LISTAR LOS BLOGS</div>
+          <ListPost />
         </Tab.Pane>
       ),
     },
@@ -17,7 +19,7 @@ export const Blog = () => {
 
   return (
     <>
-     <div className="blog-page">
+    <div className="blog-page">
       <div className="blog-page__add">
         <Button primary> Nuevo Post</Button>
       </div>
