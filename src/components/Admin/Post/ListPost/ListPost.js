@@ -7,7 +7,8 @@ import "./ListPost.scss";
 
 const postController = new Post();
 
-export const ListPost = () => {
+export const ListPost = ( props ) => {
+  const { reload } = props
 
   const [posts, setPosts] = useState(null)
   const [pagination, setPagination] = useState(null)
@@ -17,7 +18,7 @@ export const ListPost = () => {
   useEffect(() => {
     ( async () => {
       try{
-        const response = await postController.getPosts(page, 2);
+        const response = await postController.getPosts(page);
         setPosts(response.postPayload.docs);
         setPagination({
           limit: response.postPayload.limit,
@@ -30,7 +31,7 @@ export const ListPost = () => {
       }
     }
     )()
-  }, [page])
+  }, [page, reload])
   
   const changePage = (_, data) => {
     setPage(data.activePage)
