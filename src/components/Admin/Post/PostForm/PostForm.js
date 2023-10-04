@@ -2,12 +2,28 @@ import React, { useCallback } from "react";
 import { Form, Image } from "semantic-ui-react";
 import { useDropzone } from "react-dropzone";
 import { Editor } from "@tinymce/tinymce-react";
+import { useFormik } from "formik";
+import { initialValues, validationSchema } from "./PostForm.form.js";
 import "./PostForm.scss";
 
 export const PostForm = () => {
+  const formik = useFormik({
+    initialValues: initialValues(),
+    validationSchema: validationSchema(),
+    validateOnChange: false,
+    onSubmit: async (formValue) => {
+      try {
+        console.log(formValue);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  });
+
   const onDrop = useCallback((acceptedFile) => {
     const file = acceptedFile[0];
-    console.log(file);
+    formik.setFieldValue("miniature", URL.createObjectURL(file));
+    formik.setFieldValue("file", file);
   });
 
   const { getRootProps, getInputProps } = useDropzone({
@@ -16,14 +32,30 @@ export const PostForm = () => {
   });
 
   const getMiniature = () => {
+
+    if(formik.values.file){
+      return formik.values.miniature;
+    }
     return null;
   };
 
   return (
-    <Form className="post-form">
+    <Form className="post-form" onSubmit={formik.handleSubmit}>
       <Form.Group widths="equal">
-        <Form.Input name="title" placeholder="Titulo del post" />
-        <Form.Input name="path" placeholder="Path del post" />
+        <Form.Input
+          name="title"
+          placeholder="Titulo del post"
+          onChange={formik.handleChange}
+          value={formik.values.title}
+          error={formik.errors.title}
+        />
+        <Form.Input
+          name="path"
+          placeholder="Path del post"
+          onChange={formik.handleChange}
+          value={formik.values.path}
+          error={formik.errors.path}
+        />
       </Form.Group>
 
       {/* Editor del post  TINYMCE*/}
@@ -41,7 +73,11 @@ export const PostForm = () => {
                         alignleft aligncenter alignright alignjustify | \
                         bullist numlist outdent indent | removeformat | help",
         }}
+        initialValue={formik.values.content}
+        onBlur={(e) => formik.setFieldValue("content", e.target.getContent())}
       />
+
+
       {/* MINIATURE */}
       <div className="post-form__miniature" {...getRootProps()}>
         <input {...getInputProps()} />
@@ -54,7 +90,7 @@ export const PostForm = () => {
         )}
       </div>
 
-      <Form.Button type="submit" primary fluid>
+      <Form.Button type="submit" primary fluid loading={formik.isSubmitting}>
         Crear post
       </Form.Button>
     </Form>
