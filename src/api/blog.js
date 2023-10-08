@@ -56,9 +56,9 @@ export class Post {
 
   // hacer eliminacion
   //Eliminar un registro de mail
-  async deleteEmail(accessToken, idEmail) {
+  async deletePost(accessToken, idPost) {
     try {
-      const url = `${this.baseApi}/${ENV.API_ROUTES.NEWSLETTER}/${idEmail}`;
+      const url = `${this.baseApi}/${ENV.API_ROUTES.POST}/${idPost}`;
 
       const params = {
         method: "DELETE",
@@ -104,7 +104,7 @@ export class Post {
 
       if (response.status !== 200) throw result;
 
-      return result; 
+      return result;
     } catch (error) {
       throw error;
     }
