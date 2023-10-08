@@ -16,7 +16,7 @@ export const Blog = () => {
       menuItem: "Listado de Blog's",
       render: () => (
         <Tab.Pane attached={false}>
-          <ListPost reload={reload} />
+          <ListPost reload={reload} onReload={onReload}/>
         </Tab.Pane>
       ),
     },
