@@ -1,5 +1,6 @@
 import React from "react";
 import { Container } from "semantic-ui-react";
+import { TopBar } from "../../components/Web";
 import "./ClientLayout.scss";
 
 export const ClientLayout = (props) => {
@@ -8,7 +9,7 @@ export const ClientLayout = (props) => {
   return (
     <div className="client-layout">
       <div className="client-layout__header">
-        <p>HEADER</p>
+       <TopBar />
       </div>
 
       {children}
