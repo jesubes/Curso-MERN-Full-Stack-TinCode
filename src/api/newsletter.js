@@ -4,7 +4,7 @@ export class Newsletter {
   baseApi = ENV.BASE_API;
 
   //traer los Correos con paginate
-  async getEmails(accessToken, page =1 , limit = 10) {
+  async getEmails(accessToken, page = 1, limit = 10) {
     try {
       const pageFilter = `page=${page}`;
       const limitFilter = `limit=${limit}`;
@@ -27,7 +27,6 @@ export class Newsletter {
     }
   }
 
-
   //Eliminar un registro de mail
   async deleteEmail(accessToken, idEmail) {
     try {
@@ -46,7 +45,30 @@ export class Newsletter {
       if (response.status !== 200) throw result;
 
       return result;
-      
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  //registar un Email
+  async registerEmail(email) {
+    try {
+      const url = `${this.baseApi}/${ENV.API_ROUTES.NEWSLETTER}`;
+      const params = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(email),
+      };
+
+      const response = await fetch(url, params);
+      const result = await response.json();
+
+      if(response.status !== 200 ) throw result
+
+      return result
+
     } catch (error) {
       throw error;
     }

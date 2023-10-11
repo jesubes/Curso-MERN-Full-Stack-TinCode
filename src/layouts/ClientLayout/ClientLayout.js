@@ -18,8 +18,7 @@ export const ClientLayout = (props) => {
         <Container>
           <Footer.Info />
           <Footer.Menu />
-          
-          <span>NEWSLETTER</span>
+          <Footer.Newsletter />
         </Container>
         <Container>
           <span>ALL RIGHTS RESERVED</span>
