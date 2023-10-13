@@ -1,11 +1,12 @@
 import React from 'react'
-import {Banner} from '../../../components/Web'
+import {Banner, HomeCourses} from '../../../components/Web'
 
 
 export const Home = () => {
   return (
     <div>
       <Banner />
+      <HomeCourses />
     </div>
   )
 }
