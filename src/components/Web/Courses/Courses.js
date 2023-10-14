@@ -5,7 +5,6 @@ import "./Courses.scss";
 
 export const Courses = (props) => {
   const { course } = props;
-  console.log(course);
 
   return (
     <div className="courses">

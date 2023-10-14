@@ -3,24 +3,40 @@ import { Course } from "../../../api";
 import { Container, Image, Button } from "semantic-ui-react";
 import { map } from "lodash";
 import { image } from "../../../assets";
-import {Courses as CoursesComponet} from '../../../components/Web'
+import { Courses as CoursesComponet } from "../../../components/Web";
 import "./Courses.scss";
 
 const courseController = new Course();
 
 export const Courses = () => {
   const [courses, setCourses] = useState(null);
+  const [pagination, setPagination] = useState(null);
+  const [page, setPage] = useState(1);
+
+  const isCurrentLastPage = pagination?.page === pagination?.pages;
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await courseController.getCourses();
-        setCourses(response.payload.docs);
+        const response = await courseController.getCourses({ page, limit: 9 });
+
+        setPagination({
+          page: response.payload.page,
+          pages: response.payload.totalPages,
+        });
+
+        if (!courses) setCourses(response.payload.docs);
+        else setCourses([...courses, ...response.payload.docs]);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [page]);
+
+  const loadMore = () => {
+    setPage((prevState) => prevState + 1);
+  };
+
   return (
     <Container className="courses-page">
       <Image src={image.academyLogo} />
@@ -38,9 +54,13 @@ export const Courses = () => {
         ))}
       </div>
 
-      <div className="more">
-        <Button primary>Cargar mas...</Button>
-      </div>
+      {!isCurrentLastPage && (
+        <div className="more">
+          <Button primary onClick={loadMore}>
+            Cargar mas...
+          </Button>
+        </div>
+      )}
     </Container>
   );
 };
