@@ -1,5 +1,5 @@
 import React from 'react'
-import {Banner, HomeCourses, HowMyCoursesWork} from '../../../components/Web'
+import {Banner, HomeCourses, HowMyCoursesWork, Reviews} from '../../../components/Web'
 
 
 export const Home = () => {
@@ -8,6 +8,7 @@ export const Home = () => {
       <Banner />
       <HomeCourses />
       <HowMyCoursesWork />
+      <Reviews />
     </div>
   )
 }
