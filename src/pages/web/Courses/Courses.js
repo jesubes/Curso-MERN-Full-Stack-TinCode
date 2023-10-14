@@ -3,6 +3,7 @@ import { Course } from "../../../api";
 import { Container, Image, Button } from "semantic-ui-react";
 import { map } from "lodash";
 import { image } from "../../../assets";
+import {Courses as CoursesComponet} from '../../../components/Web'
 import "./Courses.scss";
 
 const courseController = new Course();
@@ -32,7 +33,7 @@ export const Courses = () => {
       <div className="courses">
         {map(courses, (course) => (
           <div key={course._id} className="courses__item">
-            <span>{course.title}</span>
+            <CoursesComponet course={course} />
           </div>
         ))}
       </div>
