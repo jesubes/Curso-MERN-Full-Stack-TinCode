@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Post } from "../../../../api";
 import { Loader, Pagination } from "semantic-ui-react";
+import {ListPostItem} from '../ListPostItem'
 import { map } from "lodash";
 import "./ListPosts.scss";
 
@@ -14,7 +15,7 @@ export const ListPosts = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await postController.getPosts(2, 2);
+        const response = await postController.getPosts();
         setPosts(response.postPayload.docs);
       } catch (error) {
         console.error(error);
@@ -30,7 +31,7 @@ export const ListPosts = () => {
       <div className="list">
         {map(posts, (post) => (
           <div key={post._id} className="item">
-            <span>{post.title}</span>
+            <ListPostItem post={post} />
           </div>
         ))}
       </div>
