@@ -5,3 +5,4 @@ export * from "./HomeCourses";
 export * from "./HowMyCoursesWork";
 export * from "./Reviews";
 export * from "./Courses";
+export * from "./Blog";
