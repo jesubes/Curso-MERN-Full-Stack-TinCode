@@ -9,20 +9,31 @@ const postController = new Post();
 
 export const ListPosts = () => {
   const [posts, setPosts] = useState(null);
+  const [pagination, setPagination] = useState()
+  const [page, setPage] = useState(1)
 
-  console.log(posts);
 
   useEffect(() => {
     (async () => {
       try {
-        const response = await postController.getPosts();
+        const response = await postController.getPosts(page, 2);
         setPosts(response.postPayload.docs);
+        setPagination({
+          limit: response.postPayload.limit,
+          page: response.postPayload.page,
+          pages: response.postPayload.totalPages,
+        })
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [page]);
 
+
+  const changePage = (_, data) =>{
+    const newPage = data.activePage;
+    setPage(newPage)
+  }
 
   if(!posts) return <Loader active inline='centered' />
 
@@ -38,13 +49,14 @@ export const ListPosts = () => {
 
       <div className="pagination">
         <Pagination 
-          totalPages={10}
-          defaultActivePage={1}
+          totalPages={pagination.pages}
+          defaultActivePage={pagination.page}
           ellipsisItem={null}
           firstItem={null}
           lastItem={null}
           secondary
           pointing
+          onPageChange={changePage}
         />
       </div>
     </div>
